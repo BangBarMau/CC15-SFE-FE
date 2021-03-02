@@ -1,10 +1,10 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 #self.dateTimeEdit.setDisplayFormat("dd/MM/yyyy hh:mm")
 #self.pushButton.clicked.connect(self.storeAppointment)
-from PyQt5.QtGui import QStandardItemModel, QStandardItem
 
 
 class Ui_Dialog(object):
+    prioNum=0
     def getDateTime(self):
         dt=self.dateTimeEdit.dateTime()
         dt_string=dt.toString(self.dateTimeEdit.displayFormat())
@@ -20,6 +20,9 @@ class Ui_Dialog(object):
         appointmentFile.write(datetime+'\n')
         appointmentFile.write(requestedFaculuty+'\n')
         appointmentFile.write('\n'+deets)
+    def getPrioNumber(self):
+        self.prioNum+=1
+        print(self.prioNum)
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
         Dialog.resize(976, 565)
@@ -75,6 +78,7 @@ class Ui_Dialog(object):
         font.setPointSize(9)
         self.pushButton_2.setFont(font)
         self.pushButton_2.setObjectName("pushButton_2")
+        self.pushButton_2.clicked.connect(self.getPrioNumber)
         self.label_4 = QtWidgets.QLabel(self.frame)
         self.label_4.setGeometry(QtCore.QRect(20, 150, 221, 21))
         font = QtGui.QFont()
