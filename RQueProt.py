@@ -1,6 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from Rappoint import Ui_Dialog
-from Rteacherside import Ui_Dialog as ts
+from Rteacherside import Ui_Dialog as teachside
 import sys
 #
 class Ui_QUeuer(object):
@@ -11,7 +11,7 @@ class Ui_QUeuer(object):
         self.window.show()
     def openWindowFac(self):
         self.window=QtWidgets.QMainWindow()
-        self.ui=ts()
+        self.ui=teachside()
         self.ui.setupUi(self.window)
         self.window.show()
     def setupUi(self, QUeuer):
