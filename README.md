@@ -8,3 +8,5 @@ literally the only working thing is the login button that switches windows kek
 application/executable version: https://drive.google.com/file/d/14-vyfawW1s6XtCEpHYS9v7Nf3M6icyUh/view?usp=sharing
 
 if you just wanna see it working just download the executable
+
+NOTE: QEQ2 REPLACED 2NDQEQ
