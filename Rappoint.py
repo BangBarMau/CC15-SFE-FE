@@ -1,10 +1,13 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 #self.dateTimeEdit.setDisplayFormat("dd/MM/yyyy hh:mm")
 #self.pushButton.clicked.connect(self.storeAppointment)
+from PyQt5.QtCore import *
+from PyQt5.QtGui import *
 
 
 class Ui_Dialog(object):
-    prioNum=0
+    def disableBox(self, i):
+        self.comboBox.setDisabled(True)
     def getDateTime(self):
         dt=self.dateTimeEdit.dateTime()
         dt_string=dt.toString(self.dateTimeEdit.displayFormat())
@@ -17,9 +20,11 @@ class Ui_Dialog(object):
         facultyRequested=self.comboBox.currentText()
         requestedFaculuty=str(facultyRequested)
         appointmentFile=open(subjecText+".txt", 'w+')
+        appointmentFile.write(subjecText+'\n')
         appointmentFile.write(datetime+'\n')
         appointmentFile.write(requestedFaculuty+'\n')
         appointmentFile.write('\n'+deets)
+        print("Requested Appointment")
     def getPrioNumber(self):
         self.prioNum+=1
         print(self.prioNum)
@@ -88,10 +93,9 @@ class Ui_Dialog(object):
         self.comboBox = QtWidgets.QComboBox(self.frame)
         self.comboBox.setGeometry(QtCore.QRect(20, 180, 311, 22))
         self.comboBox.setObjectName("comboBox")
-        self.comboBox.addItem("")
-        self.comboBox.addItem("")
-        self.comboBox.addItem("")
-        self.comboBox.addItem("")
+        faculty_list=["Faculty 1", "Faculty 2", "Faculty 3", "Faculty 4", "Faculty 5", "Faculty 6"]
+        for i in faculty_list:
+            self.comboBox.addItem(i)
         self.frame_2 = QtWidgets.QFrame(Dialog)
         self.frame_2.setGeometry(QtCore.QRect(580, 20, 371, 521))
         self.frame_2.setFrameShape(QtWidgets.QFrame.StyledPanel)
@@ -141,10 +145,6 @@ class Ui_Dialog(object):
         self.label_3.setText(_translate("Dialog", "Appointment Details"))
         self.pushButton.setText(_translate("Dialog", "Set Appointment"))
         self.pushButton_2.setText(_translate("Dialog", "Get Priority Number"))
-        self.label_4.setText(_translate("Dialog", "Appointment Subject"))
-        self.comboBox.setItemText(0, _translate("Dialog", "Faculty "))
-        self.comboBox.setItemText(1, _translate("Dialog", "Teacher 1"))
-        self.comboBox.setItemText(2, _translate("Dialog", "Teacher 2"))
-        self.comboBox.setItemText(3, _translate("Dialog", "Teacher 3"))
+        self.label_4.setText(_translate("Dialog", "Requested Faculty"))
         self.appform_2.setText(_translate("Dialog", "View Appointments"))
         self.appform_3.setText(_translate("Dialog", "Appointment History"))

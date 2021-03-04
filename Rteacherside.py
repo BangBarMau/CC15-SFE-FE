@@ -1,8 +1,35 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtCore import *
+from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
+import os
+import pathlib
 
+from Rappoint import Ui_Dialog as Laes
 
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
+        def browse():
+            filename = QFileDialog.getOpenFileName(Dialog, 'Open file', '', "Text files (*.txt)")
+            if filename[0]:
+                f=open(filename[0], 'r')
+                with f:
+                    fline = f.readline()
+                    data = f.read()
+                    self.textBrowser.setText(data)
+                    self.textBrowser_2.setText(fline)
+                    g=open("appHistory.txt",'a')
+                    g.write(fline+"\n")
+            print("Accepted Appointment")
+        def cancelAppointment():
+            appCanceled = QFileDialog.getOpenFileName(Dialog, 'Open file', '', "Text files (*.txt)")
+            if appCanceled[0]:
+                f=open(appCanceled[0], 'r')
+                with f:
+                    fileName=f.readline().strip()
+                path=pathlib.Path(fileName+'.txt')
+                path.unlink()
+                print("Appointment Canceled and Deleted")
         Dialog.setObjectName("Dialog")
         Dialog.resize(1072, 563)
         self.appointmentsFrame = QtWidgets.QFrame(Dialog)
@@ -10,14 +37,6 @@ class Ui_Dialog(object):
         self.appointmentsFrame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.appointmentsFrame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.appointmentsFrame.setObjectName("appointmentsFrame")
-        self.scrollArea_7 = QtWidgets.QScrollArea(self.appointmentsFrame)
-        self.scrollArea_7.setGeometry(QtCore.QRect(20, 100, 571, 171))
-        self.scrollArea_7.setWidgetResizable(True)
-        self.scrollArea_7.setObjectName("scrollArea_7")
-        self.scrollAreaWidgetContents_7 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_7.setGeometry(QtCore.QRect(0, 0, 569, 169))
-        self.scrollAreaWidgetContents_7.setObjectName("scrollAreaWidgetContents_7")
-        self.scrollArea_7.setWidget(self.scrollAreaWidgetContents_7)
         self.appform_8 = QtWidgets.QLabel(self.appointmentsFrame)
         self.appform_8.setGeometry(QtCore.QRect(20, 40, 241, 31))
         font = QtGui.QFont()
@@ -30,14 +49,12 @@ class Ui_Dialog(object):
         font.setPointSize(16)
         self.appform_9.setFont(font)
         self.appform_9.setObjectName("appform_9")
-        self.scrollArea_8 = QtWidgets.QScrollArea(self.appointmentsFrame)
-        self.scrollArea_8.setGeometry(QtCore.QRect(20, 350, 571, 171))
-        self.scrollArea_8.setWidgetResizable(True)
-        self.scrollArea_8.setObjectName("scrollArea_8")
-        self.scrollAreaWidgetContents_8 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_8.setGeometry(QtCore.QRect(0, 0, 569, 169))
-        self.scrollAreaWidgetContents_8.setObjectName("scrollAreaWidgetContents_8")
-        self.scrollArea_8.setWidget(self.scrollAreaWidgetContents_8)
+        self.textBrowser = QtWidgets.QTextBrowser(self.appointmentsFrame)
+        self.textBrowser.setGeometry(QtCore.QRect(20, 100, 571, 171))
+        self.textBrowser.setObjectName("textBrowser")
+        self.textBrowser_2 = QtWidgets.QTextBrowser(self.appointmentsFrame)
+        self.textBrowser_2.setGeometry(QtCore.QRect(20, 350, 571, 171))
+        self.textBrowser_2.setObjectName("textBrowser_2")
         self.settingsFrame = QtWidgets.QFrame(Dialog)
         self.settingsFrame.setGeometry(QtCore.QRect(650, 10, 411, 541))
         self.settingsFrame.setFrameShape(QtWidgets.QFrame.StyledPanel)
@@ -75,12 +92,14 @@ class Ui_Dialog(object):
         self.pushButton = QtWidgets.QPushButton(self.settingsFrame)
         self.pushButton.setGeometry(QtCore.QRect(40, 270, 321, 51))
         self.pushButton.setObjectName("pushButton")
+        self.pushButton.clicked.connect(browse)
         self.pushButton_2 = QtWidgets.QPushButton(self.settingsFrame)
         self.pushButton_2.setGeometry(QtCore.QRect(40, 340, 321, 51))
         self.pushButton_2.setObjectName("pushButton_2")
         self.pushButton_3 = QtWidgets.QPushButton(self.settingsFrame)
         self.pushButton_3.setGeometry(QtCore.QRect(40, 410, 321, 51))
         self.pushButton_3.setObjectName("pushButton_3")
+        self.pushButton_3.clicked.connect(cancelAppointment)
 
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
@@ -94,6 +113,6 @@ class Ui_Dialog(object):
         self.radioButton.setText(_translate("Dialog", "Taking Appointments"))
         self.radioButton_2.setText(_translate("Dialog", "Not Taking Appointments"))
         self.label.setText(_translate("Dialog", "CLOCK HERE EVENTUALLY"))
-        self.pushButton.setText(_translate("Dialog", "Accept Appointment"))
-        self.pushButton_2.setText(_translate("Dialog", "Cancel Appointment"))
-        self.pushButton_3.setText(_translate("Dialog", "Next Appointment"))
+        self.pushButton.setText(_translate("Dialog", "Select Appointment to Accept"))
+        self.pushButton_2.setText(_translate("Dialog", "Next Appointment"))
+        self.pushButton_3.setText(_translate("Dialog", "Select Appointment to Cancel"))
